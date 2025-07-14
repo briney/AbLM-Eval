@@ -1,11 +1,13 @@
 from dataclasses import dataclass, field
 from typing import Optional, Union
 
+from ...utils.config import BaseTaskConfig
+
 __all__ = ["MutationPredConfig"]
 
 
 @dataclass
-class MutationPredConfig:
+class MutationPredConfig(BaseTaskConfig):
     """Task: Mutation Prediction
 
     Perform mutation prediction tasks on a provided dataset.
@@ -64,13 +66,14 @@ class MutationPredConfig:
     def task_dir(self):
         return "mutation_prediction"
 
-    @property
-    def name(self):
-        return (self.task_dir).replace("_", " ").title()
+    # @property
+    # def name(self):
+    #     return (self.task_dir).replace("_", " ").title()
 
     @property
     def runner(self):
         from .mutation_pred_run import run_mutation_pred
+
         return run_mutation_pred
 
     # required
@@ -78,18 +81,18 @@ class MutationPredConfig:
     dataset_name: str = None
     data_processed: bool = False
 
-    # data processing
-    sequence_column: Optional[str] = "sequence_germ"
-    heavy_column: Optional[str] = None
-    light_column: Optional[str] = None
-    separator: str = "<cls>"
+    # # data processing
+    # sequence_column: Optional[str] = "sequence_germ"
+    # heavy_column: Optional[str] = None
+    # light_column: Optional[str] = None
+    # separator: str = "<cls>"
 
     # tokenization
-    padding: Union[bool, str] = False
-    max_len: int = None
-    truncate: bool = False
-    add_special_tokens: bool = False
-    num_proc: int = 128
+    # padding: Union[bool, str] = False
+    # max_len: int = None
+    # truncate: bool = False
+    # add_special_tokens: bool = False
+    # num_proc: int = 128
     keep_columns: list = field(
         default_factory=lambda: [
             "sequence_id",
@@ -100,5 +103,5 @@ class MutationPredConfig:
         ]
     )
 
-    # output
-    output_dir: str = None
+    # # output
+    # output_dir: str = None

@@ -1,11 +1,13 @@
 from dataclasses import dataclass, field
 from typing import Optional, Union
 
+from ...utils.config import BaseTaskConfig
+
 __all__ = ["NaturalnessConfig"]
 
 
 @dataclass
-class NaturalnessConfig:
+class NaturalnessConfig(BaseTaskConfig):
     """Task: Naturalness Prediction
 
     Perform naturalness prediction tasks on a provided dataset.
@@ -60,36 +62,37 @@ class NaturalnessConfig:
     def task_dir(self):
         return "naturalness"
 
-    @property
-    def name(self):
-        return (self.task_dir).replace("_", " ").title()
+    # @property
+    # def name(self):
+    #     return (self.task_dir).replace("_", " ").title()
 
     @property
     def runner(self):
         from .naturalness_run import run_naturalness
+
         return run_naturalness
 
     # required
     data_path: str
     dataset_name: str = None
 
-    # data processing
-    sequence_column: Optional[str] = None
-    heavy_column: Optional[str] = None
-    light_column: Optional[str] = None
-    separator: str = "<cls>"
+    # # data processing
+    # sequence_column: Optional[str] = None
+    # heavy_column: Optional[str] = None
+    # light_column: Optional[str] = None
+    # separator: str = "<cls>"
 
     # tokenization
-    padding: Union[bool, str] = False
-    max_len: int = None
-    truncate: bool = False
-    add_special_tokens: bool = False
-    num_proc: int = 128
+    # padding: Union[bool, str] = False
+    # max_len: int = None
+    # truncate: bool = False
+    # add_special_tokens: bool = False
+    # num_proc: int = 128
     keep_columns: list = field(
         default_factory=lambda: [
             "sequence_id",
         ]
     )
 
-    # output
-    output_dir: str = None
+    # # output
+    # output_dir: str = None

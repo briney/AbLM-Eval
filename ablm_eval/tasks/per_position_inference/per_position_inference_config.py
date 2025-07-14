@@ -1,11 +1,13 @@
 from dataclasses import dataclass, field
 from typing import Optional, Union
 
+from ...utils.config import BaseTaskConfig
+
 __all__ = ["PerPositionConfig"]
 
 
 @dataclass
-class PerPositionConfig:
+class PerPositionConfig(BaseTaskConfig):
     """Task: Per-position Inference
 
     Perform per-position inference, where each position in a sequence is iteratively masked, on a provided dataset.
@@ -67,9 +69,9 @@ class PerPositionConfig:
     def task_dir(self):
         return "per_pos_inference"
 
-    @property
-    def name(self):
-        return (self.task_dir).replace("_", " ").title()
+    # @property
+    # def name(self):
+    #     return (self.task_dir).replace("_", " ").title()
 
     @property
     def runner(self):
@@ -81,18 +83,18 @@ class PerPositionConfig:
     data_path: str
     dataset_name: str = None
 
-    # data processing
-    sequence_column: Optional[str] = None
-    heavy_column: Optional[str] = None
-    light_column: Optional[str] = None
-    separator: str = "<cls>"
+    # # data processing
+    # sequence_column: Optional[str] = None
+    # heavy_column: Optional[str] = None
+    # light_column: Optional[str] = None
+    # separator: str = "<cls>"
 
     # tokenization
-    padding: Union[bool, str] = False
-    max_len: int = None
-    truncate: bool = False
-    add_special_tokens: bool = False
-    num_proc: int = 128
+    # padding: Union[bool, str] = False
+    # max_len: int = None
+    # truncate: bool = False
+    # add_special_tokens: bool = False
+    # num_proc: int = 128
     keep_columns: list = field(
         default_factory=lambda: [
             "sequence_id",
@@ -104,5 +106,5 @@ class PerPositionConfig:
         ]
     )
 
-    # output
-    output_dir: str = None
+    # # output
+    # output_dir: str = None

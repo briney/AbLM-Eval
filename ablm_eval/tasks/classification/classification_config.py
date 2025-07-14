@@ -1,11 +1,13 @@
 from dataclasses import dataclass, field
 from typing import Optional, Union
 
+from ...utils.config import BaseTaskConfig
+
 __all__ = ["ClassificationConfig"]
 
 
 @dataclass
-class ClassificationConfig:
+class ClassificationConfig(BaseTaskConfig):
     """Task: Classification
 
     Perform classification tasks on a provided dataset, using the Hugging Face Trainer.
@@ -19,13 +21,13 @@ class ClassificationConfig:
     dataset_name : str
         Name of the dataset being used.
     sequence_column : str, optional
-        Column name containing full sequence (ie. no separator will be added). 
+        Column name containing full sequence (ie. no separator will be added).
         Either `sequence_column` or both `heavy_column` and `light_column` must be provided.
     heavy_column : str, optional
-        Column name containing heavy chain sequences. 
+        Column name containing heavy chain sequences.
         Either `sequence_column` or both `heavy_column` and `light_column` must be provided.
     light_column : str, optional
-        Column name containing light chain sequences. 
+        Column name containing light chain sequences.
         Either `sequence_column` or both `heavy_column` and `light_column` must be provided.
     separator : str, default=`<cls>`
         Separator token for paired sequences.
@@ -114,13 +116,14 @@ class ClassificationConfig:
     def task_dir(self):
         return f"{self.dataset_name}_classification"
 
-    @property
-    def name(self):
-        return (self.task_dir).replace("_", " ").title()
+    # @property
+    # def name(self):
+    #     return (self.task_dir).replace("_", " ").title()
 
     @property
     def runner(self):
         from .classification_run import run_classification
+
         return run_classification
 
     # required
@@ -128,11 +131,11 @@ class ClassificationConfig:
     file_prefix: str
     dataset_name: str
 
-    # data processing
-    sequence_column: Optional[str] = None
-    heavy_column: Optional[str] = None
-    light_column: Optional[str] = None
-    separator: str = "<cls>"
+    # # data processing
+    # sequence_column: Optional[str] = None
+    # heavy_column: Optional[str] = None
+    # light_column: Optional[str] = None
+    # separator: str = "<cls>"
 
     # classification details
     num_folds: int = 5
@@ -143,11 +146,11 @@ class ClassificationConfig:
     manually_freeze_base: bool = False  # balm handles by default
 
     # tokenization
-    padding: Union[bool, str] = "max_length"
-    max_len: int = 256
-    truncate: bool = True
-    add_special_tokens: bool = True
-    num_proc: int = 128
+    # padding: Union[bool, str] = "max_length"
+    # max_len: int = 256
+    # truncate: bool = True
+    # add_special_tokens: bool = True
+    # num_proc: int = 128
     keep_columns: list = field(default_factory=lambda: ["label"])
 
     # wandb
@@ -174,5 +177,5 @@ class ClassificationConfig:
     save_strategy: str = "no"
     logging_first_step: bool = True
 
-    # output
-    output_dir: str = None
+    # # output
+    # output_dir: str = None

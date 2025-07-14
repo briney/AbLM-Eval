@@ -1,11 +1,13 @@
 from dataclasses import dataclass, field
 from typing import Callable, Optional, Union
 
+from ...utils.config import BaseTaskConfig
+
 __all__ = ["InferenceConfig"]
 
 
 @dataclass
-class InferenceConfig:
+class InferenceConfig(BaseTaskConfig):
     """Task: Inference
 
     Perform MLM inference on a provided dataset, using the Hugging Face Trainer.
@@ -70,31 +72,32 @@ class InferenceConfig:
     def task_dir(self) -> str:
         return "inference"
 
-    @property
-    def name(self) -> str:
-        return (self.task_dir).replace("_", " ").title()
+    # @property
+    # def name(self) -> str:
+    #     return (self.task_dir).replace("_", " ").title()
 
     @property
     def runner(self) -> Callable:
         from .inference_run import run_inference
+
         return run_inference
 
     # required
     data_path: str
     dataset_name: str = "test"
 
-    # data processing
-    sequence_column: Optional[str] = None
-    heavy_column: Optional[str] = None
-    light_column: Optional[str] = None
-    separator: str = "<cls>"
+    # # data processing
+    # sequence_column: Optional[str] = None
+    # heavy_column: Optional[str] = None
+    # light_column: Optional[str] = None
+    # separator: str = "<cls>"
 
     # tokenization
-    padding: Union[bool, str] = "max_length"
-    max_len: int = 256
-    truncate: bool = True
-    add_special_tokens: bool = True
-    num_proc: int = 128
+    # padding: Union[bool, str] = "max_length"
+    # max_len: int = 256
+    # truncate: bool = True
+    # add_special_tokens: bool = True
+    # num_proc: int = 128
     keep_columns: list = field(default_factory=list)
 
     # collator
@@ -106,5 +109,5 @@ class InferenceConfig:
     return_moe_losses: bool = False
     report_to: str = "none"
 
-    # output
-    output_dir: str = None
+    # # output
+    # output_dir: str = None
