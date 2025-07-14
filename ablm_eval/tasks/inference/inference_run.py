@@ -1,10 +1,10 @@
 import pandas as pd
-from transformers import TrainingArguments, Trainer, DataCollatorForLanguageModeling
+from transformers import DataCollatorForLanguageModeling, Trainer, TrainingArguments
 
 from ...utils import (
-    load_model_and_tokenizer,
-    load_and_tokenize,
     ComputeMetricsForMaskedLM,
+    load_and_tokenize,
+    load_model_and_tokenizer,
 )
 from .inference_config import InferenceConfig
 
@@ -12,9 +12,10 @@ __all__ = ["run_inference"]
 
 
 def run_inference(model_name: str, model_path: str, config: InferenceConfig):
-
     # load model & tokenizer
-    model, tokenizer = load_model_and_tokenizer(model_path, task="mlm")
+    model, tokenizer = load_model_and_tokenizer(
+        model_path, task="mlm", tokenizer_path=config.tokenizer_path
+    )
     model.eval()
 
     # load & process dataset

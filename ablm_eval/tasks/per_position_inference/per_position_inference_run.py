@@ -1,12 +1,12 @@
+import pandas as pd
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import pandas as pd
 from tqdm import tqdm
 
 from ...utils import (
-    load_model_and_tokenizer,
     load_and_tokenize,
+    load_model_and_tokenizer,
 )
 
 __all__ = ["run_per_pos"]
@@ -66,9 +66,10 @@ def run_per_pos(
     model_path: str,
     config,
 ):
-
     # load model & tokenizer
-    model, tokenizer = load_model_and_tokenizer(model_path, task="mlm")
+    model, tokenizer = load_model_and_tokenizer(
+        model_path, task="mlm", tokenizer_path=config.tokenizer_path
+    )
     model = model.to(device)
     if torch.cuda.device_count() > 1:
         model = nn.DataParallel(model)

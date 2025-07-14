@@ -1,14 +1,16 @@
+from balm import *  # needed to load custom balm models & tokenizer
 from transformers import (
     AutoModelForMaskedLM,
     AutoModelForSequenceClassification,
     AutoTokenizer,
 )
-from balm import *  # needed to load custom balm models & tokenizer
 
 __all__ = ["load_model_and_tokenizer"]
 
 
-def load_model_and_tokenizer(model_path: str, task: str, **kwargs):
+def load_model_and_tokenizer(
+    model_path: str, task: str, tokenizer_path: str | None = None, **kwargs
+):
     """Load a pretrained model and tokenizer.
 
     Args:
@@ -25,7 +27,7 @@ def load_model_and_tokenizer(model_path: str, task: str, **kwargs):
         tokenizer: The loaded tokenizer.
     """
 
-    tokenizer = AutoTokenizer.from_pretrained(model_path)
+    tokenizer = AutoTokenizer.from_pretrained(tokenizer_path or model_path)
 
     if task == "mlm":
         model = AutoModelForMaskedLM.from_pretrained(model_path, **kwargs)

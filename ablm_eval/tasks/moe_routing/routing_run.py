@@ -1,10 +1,10 @@
-from tqdm import tqdm
 import pandas as pd
 import torch
+from tqdm import tqdm
 
 from ...utils import (
-    load_model_and_tokenizer,
     load_and_tokenize,
+    load_model_and_tokenizer,
     move_to_cpu,
 )
 from .routing_config import RoutingConfig
@@ -68,12 +68,10 @@ def _parse_regions(
 
 
 def _process_outputs(test_data, config: RoutingConfig):
-
     data, lengths = [], []
     for row in tqdm(
         test_data.itertuples(), total=len(test_data), desc="Processing outputs"
     ):
-
         sequence_id = getattr(row, config.id_column)
 
         # map cdr regions
@@ -150,6 +148,7 @@ def _inference(model, tokenized_dataset) -> list:
             outputs.append(move_to_cpu(output))
     return outputs
 
+
 def _tensor_to_python(obj):
     if isinstance(obj, torch.Tensor):
         return obj.item() if obj.ndim == 0 else obj.tolist()
@@ -162,10 +161,12 @@ def _tensor_to_python(obj):
     else:
         return obj
 
-def run_routing_analysis(model_name: str, model_path: str, config: RoutingConfig):
 
+def run_routing_analysis(model_name: str, model_path: str, config: RoutingConfig):
     # load model & tokenizer
-    model, tokenizer = load_model_and_tokenizer(model_path, task="mlm")
+    model, tokenizer = load_model_and_tokenizer(
+        model_path, task="mlm", tokenizer_path=config.tokenizer_path
+    )
     model = model.to(device)
     model.eval()
 
@@ -201,9 +202,7 @@ def run_routing_analysis(model_name: str, model_path: str, config: RoutingConfig
 
     # save raw results
     data["balmmoe_output"] = data["balmmoe_output"].apply(_tensor_to_python)
-    data.to_parquet(
-        f"{config.output_dir}/results/{model_name}_raw-outputs.parquet"
-    )
+    data.to_parquet(f"{config.output_dir}/results/{model_name}_raw-outputs.parquet")
     # save processed results
     extracted.to_parquet(
         f"{config.output_dir}/results/{model_name}_routing_results.parquet"
