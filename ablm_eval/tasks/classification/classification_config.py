@@ -6,7 +6,7 @@ from ...utils.config import BaseTaskConfig
 __all__ = ["ClassificationConfig"]
 
 
-@dataclass
+@dataclass(kw_only=True)
 class ClassificationConfig(BaseTaskConfig):
     """Task: Classification
 
@@ -110,11 +110,6 @@ class ClassificationConfig(BaseTaskConfig):
         The function to run the classification task.
     """
 
-    # required
-    dataset_dir: str
-    file_prefix: str
-    dataset_name: str
-
     config_type: str = field(init=False, default="classification")
 
     @property
@@ -130,6 +125,11 @@ class ClassificationConfig(BaseTaskConfig):
         from .classification_run import run_classification
 
         return run_classification
+
+    # required
+    dataset_dir: str
+    file_prefix: str
+    dataset_name: str
 
     # # data processing
     # sequence_column: Optional[str] = None

@@ -6,7 +6,7 @@ from ...utils.config import BaseTaskConfig
 __all__ = ["PerPositionConfig"]
 
 
-@dataclass
+@dataclass(kw_only=True)
 class PerPositionConfig(BaseTaskConfig):
     """Task: Per-position Inference
 
@@ -63,10 +63,6 @@ class PerPositionConfig(BaseTaskConfig):
         The function to run the per-position inference task.
     """
 
-    # required
-    data_path: str
-    dataset_name: str = None
-
     config_type: str = field(init=False, default="per_pos_inference")
 
     @property
@@ -82,6 +78,10 @@ class PerPositionConfig(BaseTaskConfig):
         from .per_position_inference_run import run_per_pos
 
         return run_per_pos
+
+    # required
+    data_path: str
+    dataset_name: str = None
 
     # # data processing
     # sequence_column: Optional[str] = None

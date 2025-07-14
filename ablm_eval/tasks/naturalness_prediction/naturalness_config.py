@@ -6,7 +6,7 @@ from ...utils.config import BaseTaskConfig
 __all__ = ["NaturalnessConfig"]
 
 
-@dataclass
+@dataclass(kw_only=True)
 class NaturalnessConfig(BaseTaskConfig):
     """Task: Naturalness Prediction
 
@@ -56,10 +56,6 @@ class NaturalnessConfig(BaseTaskConfig):
         The function to run the naturalness prediction task.
     """
 
-    # required
-    data_path: str
-    dataset_name: str = None
-
     config_type: str = field(init=False, default="naturalness")
 
     @property
@@ -75,6 +71,10 @@ class NaturalnessConfig(BaseTaskConfig):
         from .naturalness_run import run_naturalness
 
         return run_naturalness
+
+    # required
+    data_path: str
+    dataset_name: str = None
 
     # # data processing
     # sequence_column: Optional[str] = None
