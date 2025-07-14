@@ -66,6 +66,10 @@ class InferenceConfig(BaseTaskConfig):
         The function to run the inference task.
     """
 
+    # required
+    data_path: str
+    dataset_name: str = "test"
+
     config_type: str = field(init=False, default="inference")
 
     @property
@@ -81,10 +85,6 @@ class InferenceConfig(BaseTaskConfig):
         from .inference_run import run_inference
 
         return run_inference
-
-    # required
-    data_path: str
-    dataset_name: str = "test"
 
     # # data processing
     # sequence_column: Optional[str] = None

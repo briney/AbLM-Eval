@@ -60,6 +60,11 @@ class MutationPredConfig(BaseTaskConfig):
         The function to run the mutation prediction task.
     """
 
+    # required
+    data_path: str
+    dataset_name: str = None
+    data_processed: bool = False
+
     config_type: str = field(init=False, default="mutation_prediction")
 
     @property
@@ -75,11 +80,6 @@ class MutationPredConfig(BaseTaskConfig):
         from .mutation_pred_run import run_mutation_pred
 
         return run_mutation_pred
-
-    # required
-    data_path: str
-    dataset_name: str = None
-    data_processed: bool = False
 
     # # data processing
     # sequence_column: Optional[str] = "sequence_germ"

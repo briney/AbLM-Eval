@@ -62,6 +62,9 @@ class RoutingConfig(BaseTaskConfig):
         The function to run the routing analysis task.
     """
 
+    # required
+    data_path: str
+
     config_type: str = field(init=False, default="routing_analysis")
 
     @property
@@ -77,9 +80,6 @@ class RoutingConfig(BaseTaskConfig):
         from .routing_run import run_routing_analysis
 
         return run_routing_analysis
-
-    # required
-    data_path: str
 
     # data processing
     # sequence_column: Optional[str] = None
